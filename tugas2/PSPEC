@@ -1,0 +1,62 @@
+PROCESS Validasi_Nomor_Tujuan
+  Normalisasi nomor: hapus spasi, '-' dan '+'
+  IF nomor diawali '62' THEN ganti awalan '62' dengan '0'
+  IF nomor bukan angka atau tidak sesuai pola 08xxxxxxxx (10-13 digit) THEN
+      tampilkan 'Format nomor tidak valid' dan akhiri sesi
+  ELSE IF nomor tujuan = nomor pengirim THEN
+      tampilkan 'Tidak dapat transfer ke nomor sendiri' dan akhiri sesi
+  ELSE IF nomor tujuan tidak ada di D1 OR status nomor tidak aktif THEN
+      tampilkan 'Nomor tujuan tidak terdaftar / tidak aktif' dan akhiri sesi
+  ELSE
+      teruskan nomor tujuan ke proses 2.2
+  ENDIF
+END PROCESS
+
+PROCESS Validasi_Nominal_dan_Saldo
+  Hapus tanda '.' pada nominal
+  IF nominal bukan angka THEN tampilkan 'Nominal harus berupa angka'
+  ELSE IF nominal < MIN_TRANSFER OR nominal > MAKS_TRANSFER THEN
+      tampilkan 'Nominal di luar batas'
+  ELSE IF nominal bukan kelipatan KELIPATAN THEN
+      tampilkan 'Nominal harus kelipatan Rp1.000'
+  ELSE IF saldo pengirim - (nominal + BIAYA_ADMIN) < MIN_SISA_SALDO THEN
+      tampilkan 'Pulsa tidak mencukupi'
+  ELSE
+      teruskan nominal ke proses 2.3
+  ENDIF
+  (jika ada error: sesi diakhiri tanpa mengubah data)
+END PROCESS
+
+PROCESS Konfirmasi_Transaksi
+  total = nominal + BIAYA_ADMIN
+  tampilkan 'Transfer Pulsa <nominal> ke <nomor>. Total <total>. 1.Ya 2.Tidak'
+  baca jawaban Pengirim
+  IF jawaban = 1 THEN
+      teruskan transaksi ke proses 2.4
+  ELSE
+      tampilkan 'Transfer pulsa dibatalkan' dan akhiri sesi
+  ENDIF
+END PROCESS
+
+PROCESS Eksekusi_Transfer
+  total = nominal + BIAYA_ADMIN
+  IF saldo pengirim - total < MIN_SISA_SALDO THEN     (cek ulang)
+      status = GAGAL
+  ELSE
+      saldo pengirim = saldo pengirim - total
+      saldo penerima = saldo penerima + nominal
+      tambah kupon undian untuk pengirim di D4
+      status = SUKSES
+  ENDIF
+  simpan (waktu, pengirim, penerima, nominal, biaya, status) ke D2
+  teruskan status ke proses 2.5
+END PROCESS
+
+PROCESS Kirim_Notifikasi
+  IF status = SUKSES THEN
+      tampilkan ke Pengirim 'Transfer pulsa <nominal> ke <nomor> BERHASIL. Sisa pulsa <saldo>'
+      kirim SMS ke Penerima 'Anda menerima pulsa <nominal> dari <pengirim>'
+  ELSE
+      tampilkan ke Pengirim 'Transfer pulsa gagal. Silakan coba lagi'
+  ENDIF
+END PROCESS
