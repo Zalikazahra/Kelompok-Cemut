@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+
+
+static void urutkan(double a, double b, double c, double *big, double *s1, double *s2) {
+    if (a >= b && a >= c)      { *big = a; *s1 = b; *s2 = c; }
+    else if (b >= a && b >= c) { *big = b; *s1 = a; *s2 = c; }
+    else                       { *big = c; *s1 = a; *s2 = b; }
+}
+
+
+void segitigaBulat(long long a, long long b, long long c) {
+    long long big, s1, s2;
+    if (a >= b && a >= c)      { big = a; s1 = b; s2 = c; }
+    else if (b >= a && b >= c) { big = b; s1 = a; s2 = c; }
+    else                       { big = c; s1 = a; s2 = b; }
+
+    if (a <= 0 || b <= 0 || c <= 0) {
+        printf("Tidak bisa dibangun segitiga (ada sisi <= 0)\n");
+        return;
+    }
+    if (big >= s1 + s2) {
+        printf("Tidak bisa dibangun segitiga (sisi terbesar >= jumlah dua sisi lain)\n");
+        return;
+    }
+
+    bool sisiSama  = (a == b && b == c);
+    bool samaKaki  = (a == b || b == c || a == c) && !sisiSama;
+    bool siku      = (big * big == s1 * s1 + s2 * s2);
+
+    if (sisiSama)  printf("SAMA SISI (EQUILATERAL)\n");
+    if (samaKaki)  printf("SAMA KAKI (ISOSCELES)\n");
+    if (siku)      printf("SIKU-SIKU (RIGHT TRIANGLE)\n");
+    if (!sisiSama && !samaKaki && !siku)
+        printf("SEMBARANG (FREE TRIANGLE)\n");
+}
+
+
+#define AKURASI 0.01
+
+static bool sama(double x, double y) {
+    double m = (x > y) ? x : y;
+    return fabs(x - y) <= AKURASI * m;
+}
+
+void segitigaPecahan(double a, double b, double c) {
+    double big, s1, s2;
+    urutkan(a, b, c, &big, &s1, &s2);
+
+    if (a <= 0 || b <= 0 || c <= 0) {
+        printf("Tidak bisa dibangun segitiga (ada sisi <= 0)\n");
+        return;
+    }
+    if (big >= s1 + s2) {
+        printf("Tidak bisa dibangun segitiga (sisi terbesar >= jumlah dua sisi lain)\n");
+        return;
+    }
+
+    bool ab = sama(a, b), bc = sama(b, c), ac = sama(a, c);
+    bool sisiSama = (ab && bc);
+    bool samaKaki = (ab || bc || ac) && !sisiSama;
+    /* siku-siku: sisi terbesar ~ sqrt(s1^2 + s2^2) dalam toleransi 1% */
+    bool siku = sama(big, sqrt(s1 * s1 + s2 * s2));
+
+    if (sisiSama) printf("SAMA SISI (EQUILATERAL)\n");
+    if (samaKaki) printf("SAMA KAKI (ISOSCELES)\n");
+    if (siku)     printf("SIKU-SIKU (RIGHT TRIANGLE)\n");
+    if (!sisiSama && !samaKaki && !siku)
+        printf("SEMBARANG (FREE TRIANGLE)\n");
+}
+
+int main(void) {
+    int pilih;
+    printf("1. Input bilangan bulat\n2. Input bilangan pecahan (akurasi 1%%)\nPilih: ");
+    if (scanf("%d", &pilih) != 1) return 1;
+
+    if (pilih == 1) {
+        long long a, b, c;
+        printf("Masukkan a b c: ");
+        if (scanf("%lld %lld %lld", &a, &b, &c) != 3) return 1;
+        segitigaBulat(a, b, c);
+    } else {
+        double a, b, c;
+        printf("Masukkan a b c: ");
+        if (scanf("%lf %lf %lf", &a, &b, &c) != 3) return 1;
+        segitigaPecahan(a, b, c);
+    }
+    return 0;
+}
