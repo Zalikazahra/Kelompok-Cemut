@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Absensi GPS</title>
+<!-- Google Fonts: Poppins for clean modern mobile typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          },
+          colors: {
+            forest: {
+              700: '#0b562c',
+              800: '#074823',
+              900: '#043419',
+            },
+            mint: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+            }
+          },
+          boxShadow: {
+            'card': '0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -2px rgba(0, 0, 0, 0.04)',
+            'card-lg': '0 12px 30px -6px rgba(0, 0, 0, 0.1)',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="base-styles">
+    body {
+      font-family: 'Poppins', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-start min-h-screen text-slate-800 antialiased p-0 sm:p-4">
+<!-- BEGIN: MobileDeviceContainer -->
+<!-- Constrained container replicating iOS mobile screen viewport -->
+<div class="w-full max-w-[390px] min-h-screen bg-slate-50 flex flex-col shadow-2xl relative overflow-hidden pb-10">
+<!-- BEGIN: MainHeader -->
+<!-- Curved dark green navigation header banner -->
+<header class="bg-forest-800 text-white pt-10 pb-7 px-5 rounded-b-[2rem] shadow-md relative z-10" data-purpose="app-header">
+<div class="flex items-center justify-between relative">
+<!-- Hamburger Menu Button -->
+<button aria-label="Buka menu navigasi" class="p-1 -ml-1 text-white hover:opacity-80 transition-opacity focus:outline-none" type="button">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<line x1="3" x2="21" y1="6" y2="6"></line>
+<line x1="3" x2="21" y1="12" y2="12"></line>
+<line x1="3" x2="21" y1="18" y2="18"></line>
+</svg>
+</button>
+<!-- Header Title centered -->
+<h1 class="text-xl font-bold tracking-wide absolute left-0 right-0 text-center pointer-events-none">
+          Absensi GPS
+        </h1>
+<!-- Balanced spacer for symmetry -->
+<div class="w-7 h-7"></div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 px-4 pt-5 space-y-4" data-purpose="content-area">
+<!-- BEGIN: WelcomeProfileCard -->
+<!-- Card showing greeting, user name, role, and profile icon -->
+<section class="bg-white rounded-2xl p-5 shadow-card border border-slate-100/80 flex items-center justify-between" data-purpose="profile-card">
+<div class="flex flex-col">
+<span class="text-slate-900 font-bold text-lg leading-tight">Selamat Datang,</span>
+<span class="text-slate-900 font-bold text-lg mt-0.5 leading-tight">Alvi Muham</span>
+<p class="text-xs text-slate-500 font-medium mt-2">
+            Peran: <span class="text-emerald-700 font-semibold">Siswa</span>
+</p>
+</div>
+<!-- Avatar circular badge -->
+<div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center shrink-0">
+<svg class="w-7 h-7 text-emerald-800" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 2a5 5 0 100 10px 5 5 0 000-10zm-7 18a7 7 0 0114 0H5z" fill-rule="evenodd"></path>
+</svg>
+</div>
+</section>
+<!-- END: WelcomeProfileCard -->
+<!-- BEGIN: ActionCard -->
+<!-- Interactive card for triggering GPS check-in -->
+<section class="bg-white rounded-2xl py-7 px-5 shadow-card border border-slate-100/80 flex flex-col items-center text-center cursor-pointer transition-all duration-200 active:scale-[0.99] hover:shadow-card-lg" data-purpose="attendance-trigger-card">
+<!-- Mint green rounded squircle with location pin -->
+<div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mb-3">
+<svg class="w-7 h-7 text-emerald-800" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-base font-bold text-slate-900 mb-1.5">
+          Absen Sekarang
+        </h2>
+<p class="text-[11px] leading-relaxed text-slate-500 max-w-[210px]">
+          Lakukan absensi menggunakan GPS di lokasi Anda.
+        </p>
+</section>
+<!-- END: ActionCard -->
+<!-- BEGIN: DailyStatusCard -->
+<!-- List displaying today's attendance details with dividers -->
+<section class="bg-white rounded-2xl p-4 shadow-card border border-slate-100/80" data-purpose="attendance-status-card">
+<!-- Status Card Title -->
+<div class="flex items-center gap-2.5 pb-3">
+<div class="text-emerald-700">
+<!-- Clipboard icon -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+<rect height="4" rx="1" ry="1" width="8" x="8" y="2"></rect>
+<path d="M9 14l2 2 4-4"></path>
+</svg>
+</div>
+<h3 class="text-sm font-bold text-emerald-800">
+            Status Hari Ini
+          </h3>
+</div>
+<!-- Detail Rows List -->
+<div class="border-t border-slate-200 divide-y divide-slate-200">
+<!-- Row 1: Attendance Status -->
+<div class="py-2.5 flex items-center gap-3">
+<div class="text-emerald-800 shrink-0">
+<!-- Calendar Check Icon -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
+<line x1="16" x2="16" y1="2" y2="6"></line>
+<line x1="8" x2="8" y1="2" y2="6"></line>
+<line x1="3" x2="21" y1="10" y2="10"></line>
+<path d="M9 16l2 2 4-4"></path>
+</svg>
+</div>
+<span class="text-xs font-medium text-slate-800">
+              Belum melakukan absensi
+            </span>
+</div>
+<!-- Row 2: Jam Masuk -->
+<div class="py-2.5 flex items-center gap-3">
+<div class="text-emerald-800 shrink-0">
+<!-- Clock Icon -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+</div>
+<span class="text-xs font-medium text-slate-800">
+              Jam Masuk
+            </span>
+</div>
+<!-- Row 3: Lokasi -->
+<div class="py-2.5 flex items-center gap-3">
+<div class="text-emerald-800 shrink-0">
+<!-- Outline Pin Icon -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+<circle cx="12" cy="10" r="3"></circle>
+</svg>
+</div>
+<span class="text-xs font-medium text-slate-800">
+              Lokasi
+            </span>
+</div>
+<!-- Row 4: Keterangan -->
+<div class="pt-2.5 pb-1 flex items-center gap-3">
+<div class="text-emerald-800 shrink-0">
+<!-- Info Circle Icon -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<line x1="12" x2="12" y1="16" y2="12"></line>
+<line x1="12" x2="12.01" y1="8" y2="8"></line>
+</svg>
+</div>
+<span class="text-xs font-medium text-slate-800">
+              Keterangan
+            </span>
+</div>
+</div>
+</section>
+<!-- END: DailyStatusCard -->
+</main>
+<!-- END: MainContent -->
+</div>
+<!-- END: MobileDeviceContainer -->
+</body></html>

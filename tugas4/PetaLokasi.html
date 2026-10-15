@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Lokasi Anda - Konfirmasi Presensi</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#006B38',
+              dark: '#00582E',
+              light: '#057A42',
+              glow: 'rgba(0, 107, 56, 0.15)'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Fonts for Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="base-layout">
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+<style data-purpose="header-curved-shape">
+    /* Subtle organic curved background highlight effect */
+    .header-banner {
+      background-color: #006B38;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-banner::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -20px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .header-banner::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -20px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
+<style data-purpose="map-vector-rendering">
+    /* Realistic stylized city map styling using pure SVG and canvas-like precision */
+    .map-container {
+      background-color: #f1ede5;
+      position: relative;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+    }
+
+    /* GPS pulsing marker radar animation */
+    .gps-marker-pulse {
+      animation: pulse-ring 2.4s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: translate(-50%, -50%) scale(0.65);
+        opacity: 0.8;
+      }
+      70% {
+        transform: translate(-50%, -50%) scale(2.2);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(2.4);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#f7f9f8] min-h-screen flex justify-center items-start text-slate-800">
+<!-- BEGIN: MobileFrameContainer -->
+<!-- Constrained standard mobile container matching 375-390px iPhone form factor -->
+<div class="w-full max-w-[390px] min-h-screen bg-[#f8faf9] flex flex-col justify-between shadow-2xl relative overflow-hidden pb-6" data-purpose="app-viewport">
+<!-- Top Flow Section -->
+<div class="w-full">
+<!-- BEGIN: HeaderSection -->
+<header class="header-banner px-5 pt-8 pb-7 shadow-md" data-purpose="top-navigation">
+<div class="flex items-center space-x-4 relative z-10">
+<!-- Back button circle -->
+<button aria-label="Kembali" class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#006B38] shadow-md hover:bg-slate-50 active:scale-95 transition-transform shrink-0" data-purpose="back-action-button" type="button">
+<svg class="w-6 h-6 stroke-[3.2]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Screen Heading -->
+<h1 class="text-white text-2xl font-bold tracking-tight select-none">
+            Lokasi Anda
+          </h1>
+</div>
+</header>
+<!-- END: HeaderSection -->
+<!-- Main Content Container with standard horizontal padding -->
+<main class="px-5 pt-6 pb-2" data-purpose="main-content">
+<!-- BEGIN: MapCardSection -->
+<div class="w-full mb-5" data-purpose="map-wrapper">
+<div class="map-container w-full h-[320px] rounded-2xl overflow-hidden border border-slate-200/90 relative">
+<!-- Detailed vector street map simulation (Bandung layout context) -->
+<svg class="w-full h-full object-cover select-none" viewbox="0 0 350 320" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Urban ground building blocks pattern -->
+<pattern height="30" id="urban-blocks" patternunits="userSpaceOnUse" width="30">
+<rect fill="#e8ded2" height="12" opacity="0.8" rx="1.5" width="12" x="2" y="2"></rect>
+<rect fill="#f0e6dc" height="12" opacity="0.8" rx="1.5" width="11" x="16" y="2"></rect>
+<rect fill="#e5ded6" height="11" opacity="0.7" rx="1.5" width="25" x="2" y="16"></rect>
+</pattern>
+<pattern height="20" id="park-green" patternunits="userSpaceOnUse" width="20">
+<rect fill="#d9ebcf" height="20" width="20"></rect>
+</pattern>
+</defs>
+<!-- Map Background Urban Grid Base -->
+<rect fill="#f1ece4" height="320" width="350"></rect>
+<rect fill="url(#urban-blocks)" height="320" width="350"></rect>
+<!-- Green Spaces / Parks -->
+<rect fill="#d6e8cb" height="45" opacity="0.9" width="140" x="0" y="275"></rect>
+<rect fill="#d6e8cb" height="50" opacity="0.85" width="170" x="180" y="270"></rect>
+<rect fill="#d8eccf" height="40" opacity="0.9" width="80" x="10" y="30"></rect>
+<!-- Water canal / river -->
+<path d="M 0 170 Q 70 175, 110 200 T 140 320" fill="none" stroke="#b2d6ea" stroke-linecap="round" stroke-width="8"></path>
+<path d="M 0 170 Q 70 175, 110 200 T 140 320" fill="none" stroke="#9ec9e2" stroke-linecap="round" stroke-width="4"></path>
+<!-- Secondary Urban Streets (Off-white / Grey) -->
+<g stroke="#ffffff" stroke-linecap="square" stroke-width="5">
+<!-- Horizontal secondary connectors -->
+<line x1="0" x2="350" y1="55" y2="55"></line>
+<line x1="0" x2="350" y1="205" y2="205"></line>
+<line x1="0" x2="350" y1="260" y2="260"></line>
+<!-- Angled & Vertical secondary streets -->
+<line x1="80" x2="80" y1="0" y2="320"></line>
+<line x1="220" x2="220" y1="0" y2="120"></line>
+<line x1="285" x2="285" y1="120" y2="320"></line>
+<line x1="0" x2="160" y1="100" y2="125"></line>
+<line x1="210" x2="350" y1="210" y2="210"></line>
+<line x1="170" x2="170" y1="260" y2="320"></line>
+</g>
+<!-- Main Arterial Roads (Warm Golden Yellow / Orange accents) -->
+<!-- Main Avenue: Jl. Lembong / Merdeka axis -->
+<path d="M 160 0 L 160 125 L 205 285 L 210 320" fill="none" stroke="#f6c279" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+<path d="M 160 0 L 160 125 L 205 285 L 210 320" fill="none" stroke="#fbe4b5" stroke-linecap="round" stroke-linejoin="round" stroke-width="11"></path>
+<!-- Cross Highway / Railroad / Primary Corridor -->
+<path d="M 0 120 C 80 120, 120 125, 230 110 L 350 100" fill="none" stroke="#dfa35b" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"></path>
+<path d="M 0 120 C 80 120, 120 125, 230 110 L 350 100" fill="none" stroke="#ffebc8" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"></path>
+<!-- Railway Track Overlay Representation -->
+<path d="M 0 120 C 80 120, 120 125, 230 110 L 350 100" fill="none" stroke="#5d5d5d" stroke-dasharray="5,6" stroke-width="2.5"></path>
+<!-- Additional Connecting Primary Arterials -->
+<path d="M 300 135 L 300 320" fill="none" stroke="#f6c279" stroke-linecap="round" stroke-width="12"></path>
+<path d="M 300 135 L 300 320" fill="none" stroke="#fbe4b5" stroke-linecap="round" stroke-width="7"></path>
+<path d="M 160 125 L 100 240 L 0 250" fill="none" stroke="#f6c279" stroke-linejoin="round" stroke-width="10"></path>
+<path d="M 160 125 L 100 240 L 0 250" fill="none" stroke="#fbe4b5" stroke-linejoin="round" stroke-width="6"></path>
+<!-- Street Names Labels (Bandung Local Context) -->
+<text fill="#6c6b69" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" font-weight="700" x="18" y="70">an Ciamis</text>
+<text fill="#585755" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="700" x="135" y="170">Braga</text>
+<text fill="#585755" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" x="122" y="184">Lembong</text>
+<text fill="#63625f" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="700" x="28" y="238">Banceuy</text>
+<text fill="#63625f" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" x="50" y="250">ABC</text>
+<text fill="#504f4d" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="700" x="175" y="248">Braga</text>
+<text fill="#504f4d" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="700" x="250" y="248">Tamblong</text>
+<text fill="#504f4d" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" x="250" y="260">Naripan</text>
+<text fill="#4d4c4a" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" x="160" y="278">Gedung</text>
+<text fill="#4d4c4a" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" x="156" y="290">Merdeka</text>
+<text fill="#4d4c4a" font-family="'Plus Jakarta Sans', sans-serif" font-size="8.5" font-weight="700" x="238" y="288">Tamblong</text>
+<text fill="#555452" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" x="245" y="316">Lengkong</text>
+<text fill="#555452" font-family="'Plus Jakarta Sans', sans-serif" font-size="8.5" font-weight="700" x="262" y="326">Kecil</text>
+<!-- Angled labels -->
+<text fill="#63625f" font-family="'Plus Jakarta Sans', sans-serif" font-size="8.5" font-weight="600" x="248" y="115">Jalan Tera</text>
+<text fill="#63625f" font-family="'Plus Jakarta Sans', sans-serif" font-size="8.5" font-weight="600" x="272" y="180">Veteran</text>
+<text fill="#6f6e6b" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="600" transform="rotate(75 195,195)" x="195" y="195">Jalan Narce</text>
+</svg>
+<!-- Current GPS Position Pulse Pin -->
+<div class="absolute top-[36%] left-[54%] -translate-x-1/2 -translate-y-1/2 pointer-events-none" data-purpose="current-location-marker">
+<!-- Radar ripple wave -->
+<div class="gps-marker-pulse absolute top-1/2 left-1/2 w-14 h-14 bg-blue-500/35 rounded-full pointer-events-none"></div>
+<!-- Blue Bullseye User Location Pin -->
+<div class="relative w-11 h-11 bg-white rounded-full p-1.5 shadow-[0_4px_14px_rgba(37,99,235,0.45)] flex items-center justify-center">
+<div class="w-full h-full bg-[#2563eb] rounded-full flex items-center justify-center border-[2px] border-white">
+<!-- Inner white dot -->
+<div class="w-3 h-3 bg-white rounded-full shadow-inner"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END: MapCardSection -->
+<!-- BEGIN: LocationDetailsCard -->
+<div class="w-full bg-white rounded-2xl p-5 border border-slate-100 shadow-[0_4px_18px_rgba(0,0,0,0.05)]" data-purpose="address-card">
+<!-- Card Title -->
+<h2 class="text-slate-900 text-[19px] font-bold tracking-tight mb-2">
+            Lokasi Anda
+          </h2>
+<!-- Detailed Street Address -->
+<p class="text-slate-600 text-[13.5px] leading-relaxed font-normal mb-3.5">
+            Jl. Ir. H. Juanda No.93,<br/>Kota Bandung, Jawa Barat
+          </p>
+<!-- Accuracy Status Badge -->
+<div class="flex items-center space-x-1.5 text-[#006B38]" data-purpose="gps-accuracy-indicator">
+<!-- Location Pin Icon -->
+<svg class="w-4 h-4 fill-[#006B38] shrink-0" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+</svg>
+<span class="text-xs font-bold tracking-wide">
+              Akurasi : 8 meter
+            </span>
+</div>
+</div>
+<!-- END: LocationDetailsCard -->
+</main>
+</div>
+<!-- BEGIN: BottomActionSection -->
+<footer class="w-full px-5 mt-4" data-purpose="submit-action-container">
+<button class="w-full py-4 bg-[#006B38] hover:bg-[#00582E] active:bg-[#004e29] active:scale-[0.99] text-white font-bold text-[16px] rounded-2xl shadow-[0_4px_16px_rgba(0,107,56,0.3)] transition-all duration-150 flex items-center justify-center tracking-wide" data-purpose="confirm-location-button" type="button">
+        Konfirmasi Lokasi
+      </button>
+</footer>
+<!-- END: BottomActionSection -->
+</div>
+<!-- END: MobileFrameContainer -->
+</body></html>

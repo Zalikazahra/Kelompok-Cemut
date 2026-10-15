@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Login - Sistem Absensi Berbasis GPS</title>
+<!-- Google Fonts: Inter / Poppins style font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with forms plugin -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#046A38',
+              dark: '#01572d',
+              lightMint: '#ECFDF3',
+              borderMint: '#12B76A',
+              accentGreen: '#00A859'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Mobile App Frame and Aesthetics -->
+<style data-purpose="app-layout">
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    /* Smooth iOS input shadows and styling */
+    input::placeholder {
+      color: #9CA3AF;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-0 sm:p-4">
+<!-- BEGIN: MobileFrame -->
+<main class="w-full max-w-[420px] min-h-screen sm:min-h-[844px] bg-[#046A38] flex flex-col justify-between sm:rounded-[44px] sm:shadow-2xl overflow-hidden relative" data-purpose="mobile-screen-container">
+<!-- BEGIN: HeaderSection -->
+<header class="pt-12 pb-16 px-6 flex flex-col items-center text-center relative z-0" data-purpose="app-header">
+<!-- Subtle top decorative background aura -->
+<div class="absolute -top-16 -right-16 w-52 h-52 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
+<!-- GPS Location App Icon Badge -->
+<div class="w-20 h-20 bg-white rounded-[26px] shadow-lg flex items-center justify-center mb-5 transform transition-transform hover:scale-105 duration-200" data-purpose="app-logo">
+<svg class="w-10 h-10 text-[#00A859]" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<!-- App Title -->
+<h1 class="text-white text-2xl font-bold tracking-tight leading-snug px-4">
+        Sistem Absensi<br/>Berbasis GPS
+      </h1>
+<!-- App Tagline -->
+<p class="text-white/80 text-xs sm:text-sm font-normal mt-2 tracking-wide">
+        Absensi lebih mudah dan akurat
+      </p>
+</header>
+<!-- END: HeaderSection -->
+<!-- BEGIN: FormCardContainer -->
+<section class="flex-1 bg-white rounded-t-[36px] px-6 sm:px-7 pt-7 pb-10 shadow-[0_-10px_35px_rgba(0,0,0,0.1)] relative z-10 flex flex-col justify-between" data-purpose="login-form-card">
+<div>
+<!-- Screen Title -->
+<h2 class="text-gray-900 text-2xl font-bold text-center tracking-tight mb-6">
+          Login
+        </h2>
+<form action="#" class="space-y-4" method="POST" onsubmit="event.preventDefault();">
+<!-- BEGIN: RoleSelector -->
+<div data-purpose="role-selection">
+<label class="block text-gray-800 text-sm font-bold mb-2">
+              Pilih Peran
+            </label>
+<div aria-label="Pilih Peran" class="grid grid-cols-2 gap-3" role="radiogroup">
+<!-- Option: Siswa (Active by default) -->
+<button class="w-full py-3 px-4 rounded-xl text-center font-bold text-sm text-[#00A859] bg-[#EAFBF3] border-2 border-[#10B981] shadow-sm transition-all duration-150 active:scale-95 flex items-center justify-center" data-purpose="role-siswa" id="role-siswa-btn" onclick="selectRole('siswa')" type="button">
+                Siswa
+              </button>
+<!-- Option: Guru (Inactive by default) -->
+<button class="w-full py-3 px-4 rounded-xl text-center font-semibold text-sm text-gray-500 bg-[#F3F4F6] border-2 border-transparent hover:bg-gray-200 transition-all duration-150 active:scale-95 flex items-center justify-center" data-purpose="role-guru" id="role-guru-btn" onclick="selectRole('guru')" type="button">
+                Guru
+              </button>
+</div>
+</div>
+<!-- END: RoleSelector -->
+<!-- BEGIN: UsernameInput -->
+<div class="pt-1" data-purpose="username-field">
+<label class="block text-gray-800 text-sm font-bold mb-1.5" for="username">
+              Username
+            </label>
+<div class="relative flex items-center bg-[#F8FAFC] border border-gray-200/80 rounded-2xl px-4 py-3.5 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-[#046A38] transition-all">
+<!-- User Icon -->
+<div class="text-gray-400 mr-3 flex-shrink-0">
+<svg class="w-5 h-5 text-gray-400" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.6-7.812-1.7a.75.75 0 01-.437-.695z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<!-- Text Input -->
+<input class="w-full p-0 bg-transparent border-0 text-gray-800 text-sm font-medium focus:ring-0 focus:outline-none" id="username" name="username" placeholder="Masukkan username" type="text" value="Alvi Muham"/>
+</div>
+</div>
+<!-- END: UsernameInput -->
+<!-- BEGIN: PasswordInput -->
+<div class="pt-1" data-purpose="password-field">
+<label class="block text-gray-800 text-sm font-bold mb-1.5" for="password">
+              Password
+            </label>
+<div class="relative flex items-center bg-[#F8FAFC] border border-gray-200/80 rounded-2xl px-4 py-3.5 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-[#046A38] transition-all">
+<!-- Lock Icon -->
+<div class="text-gray-400 mr-3 flex-shrink-0">
+<svg class="w-5 h-5 text-gray-400" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 00-7.5 0v3h7.5z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<!-- Password Input -->
+<input class="w-full p-0 bg-transparent border-0 text-gray-800 text-sm font-medium tracking-widest focus:ring-0 focus:outline-none" id="password" name="password" placeholder="Masukkan password" type="password" value="secretpassword123"/>
+<!-- Password Toggle Visibility Icon -->
+<button aria-label="Toggle password visibility" class="text-gray-400 hover:text-gray-600 focus:outline-none ml-2" id="toggle-password" onclick="togglePasswordVisibility()" type="button">
+<!-- Eye Icon -->
+<svg class="w-5 h-5" fill="none" id="eye-icon" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- END: PasswordInput -->
+<!-- BEGIN: SubmitButton -->
+<div class="pt-4" data-purpose="submit-container">
+<button class="w-full py-4 bg-[#046A38] hover:bg-[#03582e] active:scale-[0.99] text-white text-base font-bold rounded-2xl shadow-lg shadow-emerald-950/20 transition-all duration-200 flex items-center justify-center tracking-wide" data-purpose="login-button" type="submit">
+              Login
+            </button>
+</div>
+<!-- END: SubmitButton -->
+</form>
+</div>
+<!-- iOS Home Indicator Spacing Simulation -->
+<div class="w-32 h-1 bg-gray-200 rounded-full mx-auto mt-6" data-purpose="home-indicator"></div>
+</section>
+<!-- END: FormCardContainer -->
+</main>
+<!-- END: MobileFrame -->
+<!-- JavaScript for Role Toggle & Password Visibility -->
+<script data-purpose="interactive-handlers">
+    // Switch between Siswa and Guru roles
+    function selectRole(role) {
+      const siswaBtn = document.getElementById('role-siswa-btn');
+      const guruBtn = document.getElementById('role-guru-btn');
+
+      const activeClasses = ['text-[#00A859]', 'bg-[#EAFBF3]', 'border-2', 'border-[#10B981]', 'font-bold'];
+      const inactiveClasses = ['text-gray-500', 'bg-[#F3F4F6]', 'border-2', 'border-transparent', 'font-semibold'];
+
+      if (role === 'siswa') {
+        siswaBtn.classList.remove(...inactiveClasses);
+        siswaBtn.classList.add(...activeClasses);
+
+        guruBtn.classList.remove(...activeClasses);
+        guruBtn.classList.add(...inactiveClasses);
+      } else {
+        guruBtn.classList.remove(...inactiveClasses);
+        guruBtn.classList.add(...activeClasses);
+
+        siswaBtn.classList.remove(...activeClasses);
+        siswaBtn.classList.add(...inactiveClasses);
+      }
+    }
+
+    // Toggle Password Visibility
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    }
+  </script>
+</body></html>
